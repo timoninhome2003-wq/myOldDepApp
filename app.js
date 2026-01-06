@@ -1,25 +1,3 @@
-/*
-
-
-1. Сделай нормальную обработку на клик у atGalka
-2. Подбери h5/h6 для atText
-3. Сделай sym в 10 раз больше
-
-*/
-
-
-
-
-
-
-/*function hide(elem) {
-    elem.style.opacity = "0"
-    elem.style.pointerEvents = "none"
-}
-function show(elem) {
-    elem.style.opacity = "1"
-    elem.style.pointerEvents = "auto"
-}*/
 function conClas(clas, logCon) {
     let classs = document.querySelector("."+clas)
 
@@ -67,6 +45,9 @@ function conClas(clas, logCon) {
             }
             conClas(nextClasses, "logUp")
         })
+
+
+
     } else if (clas == "ScreenLogIn") {
         presentClass = "ScreenLogIn"
         nextClasses = ["Conditions", "Base"]
@@ -78,6 +59,7 @@ function conClas(clas, logCon) {
         } else if (logCon == "logUp") {
             screenName.innerText = "Регистрация"
         }
+        screenName.style.transform = 'translateX(-21%)'
 
         let usNameText = document.createElement("h3")
         usNameText.innerText = "Введите имя: "
@@ -180,14 +162,16 @@ function conClas(clas, logCon) {
         go4.classList.add("conditions")
         elems.push(go4)
 
-        let accept = document.createElement("div")
-        accept.innerHTML = `
-            <div id="atGalka" class="conditions"></div>
-            <h5 id="atText" class="conditions">Я понимаю и соглашаюсь с условиями соглашения</h5>
-        `;
-        accept.setAttribute("id", "galkaPtext")
-        accept.classList.add("conditions")
-        elems.push(accept)
+        let atGalka = document.createElement('div')
+        atGalka.setAttribute("id", "atGalka")
+        atGalka.classList.add("conditions")
+        elems.push(atGalka)
+
+        let atText = document.createElement("h5")
+        atText.innerText = 'Я понимаю и соглашаюсь с условиями соглашения'
+        atText.setAttribute("id", "atText")
+        atText.classList.add("conditions")
+        elems.push(atText)
 
         let next = document.createElement("button")
         next.innerText = "Продолжить"
@@ -202,7 +186,8 @@ function conClas(clas, logCon) {
         classs.append(go2)
         classs.append(go3)
         classs.append(go4)
-        classs.append(accept)
+        classs.append(atGalka)
+        classs.append(atText)
         classs.append(next)
         next.addEventListener("click", () => {
             for (let elem of elems) {
@@ -210,8 +195,8 @@ function conClas(clas, logCon) {
             }
             conClas(nextClasses)
         })
-        atGalka.addEventListener("click", () => {
-            atGalka.classList.add("gggg")
+        atGalka.addEventListener('click', () => {
+            atGalka.classList.toggle('active')
         })
     } else if (clas == "Base") {
         presentClass = "Base"
@@ -228,7 +213,7 @@ function conClas(clas, logCon) {
         elems.push(exit)
 
         let balanceText = document.createElement("h4")
-        balanceText.innerText = "Ваш баланс: "
+        balanceText.innerText = "баланс: "
         balanceText.setAttribute("id", "balanceText")
         balanceText.classList.add("base")
         elems.push(balanceText)
@@ -253,7 +238,10 @@ function conClas(clas, logCon) {
                 <h6 id="q2"></h6>
                 <h6 id="q3"></h6>
             </div>
-            <div id="depLever"></div>
+            <div id="depLever">
+                <div id='upl'><div>
+                <div id='downl'><div>
+            </div>
             <div id="depDown"></div>
         `
         DEPafto.setAttribute("id", "DEPafto")
@@ -314,9 +302,10 @@ function conClas(clas, logCon) {
         elems = []
 
         screenName.innerText = "КЛИКАЙ!"
+        screenName.style.transform = 'translateX(-15%)';
 
         let balanceText = document.createElement("h4")
-        balanceText.innerText = "Ваш баланс: "
+        balanceText.innerText = "баланс: "
         balanceText.setAttribute("id", "balanceTextCl")
         balanceText.classList.add("click")
         elems.push(balanceText)
@@ -373,17 +362,3 @@ let elems = []
 document.addEventListener('DOMContentLoaded', () => {
     conClas(presentClass)
 })
-
-
-
-/* 
-    let classes = document.querySelectorAll(".web")
-    let next = document.querySelector("#clbut")
-    for (let elem of classes) {
-        elem.classList.remove("web")
-        if (elem.classList != presentClass) {
-            elem.remove(presentClass)
-        }
-        elem.classList.add("web")
-    }
-*/
