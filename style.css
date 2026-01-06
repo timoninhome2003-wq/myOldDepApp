@@ -1,225 +1,377 @@
-/*
-
-
-1. !!!ПОФИКСИ ЖИРНОСТЬ ТЕКСТА >= h3!!!
-2. Пофикси стиль текста у кнопок
-3. В js на conditions у метки добавь проверку на клик
-4. Проверь depDown, не отображался
-5. Сделай sym в 10 раз больше
-
-
-*/
-.gggg {
-    background-color: blue;
-    width: 200px;
-}
 body {
     background-color: rgba(66, 66, 66, 1);
 }
 #webName {
+    position: fixed;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
     color: rgba(255, 149, 0, 1);
+    z-index: 10;
 }
 #screenName { 
+    position: fixed;
+    top: 5px;
+    left: 50vw;
+    transform: translateX(-27%);
+    width: 500px;
     color: rgba(255, 255, 255, 1);
+    z-index: 9;
 } 
 #circle {
+    position: fixed;
     background-color: rgba(50, 50, 50, 1);
-    width: 100px;
-    height: 20px;
-    border-radius: 50px;
+    right: -50vw;
+    top: -410px;
+    width: 200vw;
+    height: 500px;
+    border-radius: 100%;
+    z-index: 8;
 }
 #reclamaAkk {
+    position: fixed;
     color: rgba(215, 215, 215, 1);
+    top: 13vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    width: 60vw;
+    font-size: calc((4vw + 4vh) / 2);
+    text-align: center;
 }
 #logIn {
+    position: fixed;
     background-color: rgba(255, 149, 0, 1);
     color: rgba(0, 0, 0, 1);
-    width: 185px;
-    height: 40px;
-    border-radius: 15px;
+    bottom: 18vw;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: calc(45vw);
+    height: calc((10vh + 10vw)/2);
+    font-size: 3.5vw;
+    border-radius: 5vh;
 }
 #logUp {
+    position: fixed;
     background-color: rgba(221, 0, 0, 1);
     color: rgba(0, 0, 0, 1);
-    width: 135px;
-    height: 30px;
-    border-radius: 12px;
+    bottom: 6vw;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: calc(35vw);
+    height: calc((8vh + 8vw)/2);
+    font-size: 3.5vw;
+    border-radius: 4vh;
 }
 #textInputName {
+    position: fixed;
     color: rgba(217, 217, 217, 1);
+    top: 13vh;
+    left: 10px;
+    font-size: max(32px, calc((4vh + 4vw) / 2));
 }
 #inputName {
+    position: fixed;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
+    top: 24.5vh;
+    left: 10px;
+    width: calc((25vw + 25vh)/1.5);
+    height: calc(2.7vh);
 }
 #textInputPassword {
+    position: fixed;
     color: rgba(217, 217, 217, 1);
+    top: 24vh;
+    left: 10px;
+    height: 5px;
+    font-size: max(30px, calc((4vh + 4vw) / 2));
 }
 #inputPassword {
+    position: fixed;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
+    top: 35vh;
+    left: 10px;
+    width: calc((25vw + 25vh)/1.5);
+    height: calc(2.7vh);
+}
+#bellLion {
+    position: fixed;
+    width: 75vw;
+    height: 40vh;
+    top: 62vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
 }
 #logInServis {
+    position: fixed;
     background-color: rgba(255, 149, 0, 1);
-    width: 125px;
-    height: 50px;
+    width: max(150px,  32vw);
+    height: calc((8vh + 8vw)/2);
     border-radius: 22px;
+    top: 88vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    font-size: max(18px, 3.5vw);
 }
 #conditions {
+    position: fixed;
     color: rgba(217, 217, 217, 1);
+    top: 90.7vh;
+    left: 50vw;
+    width: 96vw;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    font-size: max(15px, 2.5vw);
 }
 #srcName {
+    position: fixed;
     color: rgba(255, 255, 255, 1);
-}
+    top: 11vh;
+    z-index: 10;
+    font-size: clamp(20px, 3vw, 30px);
+    height: clamp(15px, 3vw, 25px);}
 .go {
     color: rgba(255, 255, 255, 1);
+    font-size: clamp(12px, 3vw, 23px);
+    height: clamp(15px, 3vw, 25px);
+}
+#go1 {
+    position: fixed;
+    height: 95vh;
+    width: 95vw;
+    top: 65vh;
+    left: 10px;
+    transform: translateY(-50%);
+}
+#go2 {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 80vh;
+    left: 10px;
+    transform: translateY(-50%);
+}
+#go3 {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 90vh;
+    left: 10px;
+    transform: translateY(-50%);
 }
 #go4 {
-    color: rgba(54, 54, 255, 1);
-}
+    position: fixed;
+    color: rgb(0, 157, 255);
+    top: 48vh;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: clamp(12px, 3vw, 23px);
+    height: clamp(15px, 3vw, 25px);}
 #atGalka {
+    position: fixed;
+    display: inline-block;
     width: 15px;
     height: 15px;
+    top: 80vh;
+    left: 10px;
     background-color: rgba(0, 0, 0, 0);
     border: 3px solid black;
+    transition: background-color 0s;
 }
 #atGalka:hover {
     background-color: rgb(81, 81, 81);
 }
-/*
-#atGalka:active {
+#atGalka.active {
     background-color: blue;
 }
-*/
 #atText {
+    position: fixed;
     color: rgba(218, 218, 218, 1);
+    top: 77vh;
+    left: 35px;
 }
 #atNext {
+    position: fixed;
     background-color: rgba(217, 217, 217, 1);
     width: 200px;
     height: 40px;
     border-radius: 12px;
+    top: 90vh;
+    left: 50vw;
+    transform: translateX(-50%);
 }
+
+
+
 #exit {
+    position: fixed;
     color: rgba(189, 189, 189, 1);
     background-color: rgba(50, 50, 50, 1);
     width: 75px;
     height: 25px;
     border-radius: 12px;
+    left: 75vw;
+    top: 8vh;
+    transform: translate(-50%, -50%);
+    z-index: 12;
 }
 #balanceText {
+    position: fixed;
     color: white;
+    top: 16vh;
+    left: 8vw;
+    transform: translate(0, -50%);
 }
 #balanceValue {
+    position: fixed;
     color: gold;
+    top: 16vh;
+    left: clamp(110px, 25vw, 210px);
+    transform: translate(-50%, -50%);
 }
 #toReplenish {
+    position: fixed;
     color: goldenrod;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(66, 66, 66, 1);
+    top: 22vh;
+    left: 8vw;
+    transform: translate(0, -50%);
 }
 #DEPafto {
+    position: fixed;
     width: 175px;
     height: 250px;
     background-color: rgba(0, 0, 0, 1);
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
 }
 #depUp {
     width: 175px;
     height: 65px;
-    background-color: red;
+    background-color: rgba(0, 0, 0, 1);
 }
 #depCenter {
+    position: fixed;
     width: 175px;
     height: 65px;
-    background-color: green;
+    background-color: rgb(9, 255, 0);
+    top: 65px;
+}
+#upl {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: red;
+    bottom: 95%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 #depLever {
-    background-color: blueviolet;
-    width: 40px;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 1);
+    width: 20px;
     height: 110px;
+    bottom: 75px;
+    left: 95%;
+    transform: rotate(20deg);
 }
 #depDown { /*==================================================*/
-    background-color: blue;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 1);
     width: 175;
     height: 120;
+    top: 130px;
 }
 #depInputText {
+    position: fixed;
     color: rgba(217, 217, 217, 1);
+    top: 75vh;
+    left: 50vw;
+    transform: translateX(-50%);
 }
 #depInputValue {
+    position: fixed;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
+    top: 81vh;
+    left: 50vw;
+    transform: translateX(-50%);
 }
 #depBtn {
+    position: fixed;
     background-color: rgb(220, 0, 0);
     color: white;
     width: 185px;
     height: 45px;
     border-radius: 15px;
+    top: 90vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
 }
 #balanceTextCl {
+    position: fixed;
     color: white;
+    top: 16vh;
+    left: 8vw;
+    transform: translate(0, -50%);
 }
 #balanceValueCl {
+    position: fixed;
     color: gold;
+    top: 16vh;
+    left: clamp(110px, 25vw, 210px);
+    transform: translate(-50%, -50%);
+}
+#money {
+    position: fixed;
+    top: 50vw;
+    left: 45vh;
+    width: max(150px, 45vmin);
+    height: max(150px, 45vmin);
 }
 #vne {
+    position: fixed;
     background-color: rgba(207, 166, 0, 1);
-    width: 150px;
-    height: 150px;
+    width: max(150px, 45vmin);
+    height: max(150px, 45vmin);
     border-radius: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 #vnu {
+    position: fixed;
     background-color: rgba(255, 204, 0, 1);
-    width: 130px;
-    height: 130px;
+    width: max(130px, 39vmin);
+    height: max(130px, 39vmin);
     border-radius: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 #sym {
-    width: 150px;
-    height: 150px;
+    position: fixed;
+    font-size: clamp(100px, 8vmin, 600px); 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120%);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1; 
+    white-space: nowrap; /* Не переносить текст ====================================================================*/
+    z-index: 2;
 }
 #backToBase {
+    position: fixed;
     width: 150px;
     height: 40px;
     background-color: rgba(220, 0, 0, 1);
     color: white;
     border-radius: 12px;
+    top: 90vh;
+    left: 50vw;
+    transform: translateX(-50%);
 }
-
-
-
-/*#money {
-    background-color: goldenrod; Для внешней goldenrod, для внутренней gold
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
-}*/
-
-/*
-
-let DEPup = document.createElement("div")
-        DEPup.setAttribute("id", "DEPup")
-        DEPup.classList.add("DEPafto", "base")
-        elems.push(DEPup)
-
-        let DEPcenter = document.createElement("div")
-        DEPcenter.innerHTML = `
-            <h6 id="q1"></h6>
-            <h6 id="q2"></h6>
-            <h6 id="q3"></h6>
-        `
-        DEPcenter.setAttribute("id", "DEPcenter")
-        DEPcenter.classList.add("DEPafto", "base")
-        elems.push(DEPcenter)
-
-        let DEPlever = document.createElement("div")
-        DEPlever.setAttribute("id", "DEPlever")
-        DEPlever.classList.add("DEPafto", "base")
-        elems.push(DEPlever)
-
-        let DEPdown = document.createElement("div")
-        DEPdown.setAttribute("id", "DEPdown")
-        DEPdown.classList.add("DEPafto", "base")
-        elems.push(DEPdown)
-
-*/
