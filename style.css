@@ -62,10 +62,15 @@ body {
     font-size: 3.5vw;
     border-radius: 4vh;
 }
+
+
+
+
+
 #textInputName {
     position: fixed;
     color: rgba(217, 217, 217, 1);
-    top: 13vh;
+    top: 10vh;
     left: 10px;
     font-size: max(32px, calc((4vh + 4vw) / 2));
 }
@@ -73,7 +78,7 @@ body {
     position: fixed;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
-    top: 24.5vh;
+    top: 21.5vh;
     left: 10px;
     width: calc((25vw + 25vh)/1.5);
     height: calc(2.7vh);
@@ -81,7 +86,7 @@ body {
 #textInputPassword {
     position: fixed;
     color: rgba(217, 217, 217, 1);
-    top: 24vh;
+    top: 21vh;
     left: 10px;
     height: 5px;
     font-size: max(30px, calc((4vh + 4vw) / 2));
@@ -90,7 +95,7 @@ body {
     position: fixed;
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
-    top: 35vh;
+    top: 32.65vh;
     left: 10px;
     width: calc((25vw + 25vh)/1.5);
     height: calc(2.7vh);
@@ -99,7 +104,7 @@ body {
     position: fixed;
     width: 75vw;
     height: 40vh;
-    top: 62vh;
+    top: 58vh;
     left: 50vw;
     transform: translate(-50%, -50%);
 }
@@ -109,7 +114,7 @@ body {
     width: max(150px,  32vw);
     height: calc((8vh + 8vw)/2);
     border-radius: 22px;
-    top: 88vh;
+    top: 86vh;
     left: 50vw;
     transform: translate(-50%, -50%);
     font-size: max(18px, 3.5vw);
@@ -117,13 +122,18 @@ body {
 #conditions {
     position: fixed;
     color: rgba(217, 217, 217, 1);
-    top: 90.7vh;
+    top: 86.7vh;
     left: 50vw;
     width: 96vw;
     text-align: center;
     transform: translate(-50%, -50%);
     font-size: max(15px, 2.5vw);
 }
+
+
+
+
+
 #srcName {
     position: fixed;
     color: rgba(255, 255, 255, 1);
@@ -171,13 +181,13 @@ body {
 #atGalka {
     position: fixed;
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    width: 50px;
+    height: 50px;
     top: 80vh;
-    left: 10px;
+    left: 20px;
     background-color: rgba(0, 0, 0, 0);
-    border: 3px solid black;
-    transition: background-color 0s;
+    border: 7px solid black;
+    transition: background-color 0.3s;
 }
 #atGalka:hover {
     background-color: rgb(81, 81, 81);
@@ -185,17 +195,27 @@ body {
 #atGalka.active {
     background-color: blue;
 }
+#g {
+    position: fixed;
+    display: inline-block;
+    top: 73.5vh;
+    left: 28px;
+    transform: translate(50%, -50%);
+    font-size: calc((3vw + 3vh)/2);
+}
 #atText {
     position: fixed;
     color: rgba(218, 218, 218, 1);
-    top: 77vh;
-    left: 35px;
+    top: 76.5vh;
+    left: 92px;
+    font-size: calc((2.5vw + 2.5vh)/2);
 }
 #atNext {
     position: fixed;
     background-color: rgba(217, 217, 217, 1);
-    width: 200px;
-    height: 40px;
+    width: 25vw;
+    height: 8vh;
+    font-size: calc((3vw + 3vh)/2);
     border-radius: 12px;
     top: 90vh;
     left: 50vw;
@@ -204,92 +224,151 @@ body {
 
 
 
+
+
 #exit {
     position: fixed;
     color: rgba(189, 189, 189, 1);
     background-color: rgba(50, 50, 50, 1);
-    width: 75px;
-    height: 25px;
+    width: 10vw;
+    height: 7vh;
     border-radius: 12px;
     left: 75vw;
     top: 8vh;
-    transform: translate(-50%, -50%);
+    font-size: calc((3vw + 3vh)/2);
     z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #balanceText {
     position: fixed;
     color: white;
     top: 16vh;
     left: 8vw;
+    white-space: nowrap;
     transform: translate(0, -50%);
+    font-size: calc((2vw + 2vh)/2);
 }
 #balanceValue {
     position: fixed;
     color: gold;
     top: 16vh;
-    left: clamp(110px, 25vw, 210px);
+    left: clamp(110px, 25vw, 230px);
     transform: translate(-50%, -50%);
+    font-size: calc((2vw + 2vh)/2);
 }
 #toReplenish {
     position: fixed;
     color: goldenrod;
     background-color: rgba(66, 66, 66, 1);
-    top: 22vh;
+    top: 27vh;
     left: 8vw;
+    width: 12vw;
+    height: 6vh;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform: translate(0, -50%);
+    font-size: calc((2.5vw + 2.5vh)/2);
+
 }
 #DEPafto {
     position: fixed;
-    width: 175px;
-    height: 250px;
+    width: 25vw;
+    height: 65vh;
     background-color: rgba(0, 0, 0, 1);
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
+    z-index: 10;
+    overflow: visible;
+    border: 5px solid #333;
+    border-radius: 15px;
 }
 #depUp {
-    width: 175px;
-    height: 65px;
-    background-color: rgba(0, 0, 0, 1);
+    position: absolute;
+    width: 90%;
+    height: 25%;
+    background-color: rgba(30, 30, 30, 1);
+    top: 5%;
+    left: 5%;
+    border-radius: 10px;
+    border: 3px solid #222;
+}
+#q1 {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    font-size: calc((3vw + 3vh)/2);
+    transform: translate(-50%, -50%);
+}
+#q2 {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    font-size: calc((3vw + 3vh)/2);
+    transform: translate(-50%, -50%);
+}
+#q3 {
+    position: absolute;
+    top: 30%;
+    left: 80%;
+    font-size: calc((3vw + 3vh)/2);
+    transform: translate(-50%, -50%);
 }
 #depCenter {
-    position: fixed;
-    width: 175px;
-    height: 65px;
-    background-color: rgb(9, 255, 0);
-    top: 65px;
+    position: absolute;
+    width: 90%;
+    height: 35%;
+    background-color: rgb(30, 30, 30);
+    top: 60%;
+    left: 5%;
+    border-radius: 10px;
+    border: 3px solid #222;
+}
+#depDown {
+    position: absolute;
+    background-color: rgba(30, 30, 30, 1);
+    width: 90%;
+    height: 30%;
+    top: 70%;
+    left: 5%;
+    border-radius: 10px;
+    border: 3px solid #222;
 }
 #upl {
-    position: fixed;
-    width: 40px;
-    height: 40px;
-    border-radius: 100px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     background-color: red;
-    bottom: 95%;
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 20;
+    border: 4px solid #900;
 }
 #depLever {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 1);
-    width: 20px;
-    height: 110px;
-    bottom: 75px;
-    left: 95%;
-    transform: rotate(20deg);
-}
-#depDown { /*==================================================*/
-    position: fixed;
-    background-color: rgba(0, 0, 0, 1);
-    width: 175;
-    height: 120;
-    top: 130px;
+    position: absolute;
+    background-color: rgba(80, 80, 80, 1);
+    width: 35px;
+    height: 150px;
+    bottom: 35%;
+    right: -15px;
+    transform: rotate(25deg);
+    z-index: 0;
+    transform-origin: bottom center;
+    border-radius: 8px;
+    border: 3px solid #222;
 }
 #depInputText {
     position: fixed;
     color: rgba(217, 217, 217, 1);
-    top: 75vh;
-    left: 50vw;
+    top: 72vh;
+    left: 17vw;
+    font-size: calc((2vw + 2vh)/2);
     transform: translateX(-50%);
 }
 #depInputValue {
@@ -297,8 +376,26 @@ body {
     background-color: rgba(217, 217, 217, 1);
     border-radius: 12px;
     top: 81vh;
-    left: 50vw;
+    left: 17vw;
+    width: 250px;
+    height: 15px;
     transform: translateX(-50%);
+}
+#depValueText {
+    position: fixed;
+    color: rgb(255, 255, 255);
+    top: 60vh;
+    left: 80vw;
+    font-size: calc((2vw + 2vh)/2);
+    transform: translate(-50%, -50%);
+}
+#depValue {
+    position: fixed;
+    color: rgb(255, 255, 255);
+    top: 60vh;
+    left: 85vw;
+    font-size: calc((2vw + 2vh)/2);
+    transform: translate(-50%, -50%);
 }
 #depBtn {
     position: fixed;
@@ -311,18 +408,25 @@ body {
     left: 50vw;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+
 #balanceTextCl {
     position: fixed;
     color: white;
     top: 16vh;
     left: 8vw;
+    font-size: calc((3vw + 3vh)/2);
     transform: translate(0, -50%);
 }
 #balanceValueCl {
     position: fixed;
     color: gold;
     top: 16vh;
-    left: clamp(110px, 25vw, 210px);
+    left: 300px;
+    font-size: calc((3vw + 3vh)/2);
     transform: translate(-50%, -50%);
 }
 #money {
@@ -337,7 +441,7 @@ body {
     background-color: rgba(207, 166, 0, 1);
     width: max(150px, 45vmin);
     height: max(150px, 45vmin);
-    border-radius: 100px;
+    border-radius: 500px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -347,7 +451,7 @@ body {
     background-color: rgba(255, 204, 0, 1);
     width: max(130px, 39vmin);
     height: max(130px, 39vmin);
-    border-radius: 100px;
+    border-radius: 500px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -366,12 +470,13 @@ body {
 }
 #backToBase {
     position: fixed;
-    width: 150px;
-    height: 40px;
+    width: 225px;
+    height: 60px;
     background-color: rgba(220, 0, 0, 1);
     color: white;
     border-radius: 12px;
     top: 90vh;
     left: 50vw;
+    font-size: calc((2.5vw + 2.5vh)/2);
     transform: translateX(-50%);
 }
