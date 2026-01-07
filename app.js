@@ -1,3 +1,11 @@
+function hide(elem) {
+    elem.style.opacity = "0"
+    elem.style.pointerEvents = "none"
+}
+function show(elem) {
+    elem.style.opacity = "1"
+    elem.style.pointerEvents = "auto"
+}
 function conClas(clas, logCon) {
     let classs = document.querySelector("."+clas)
 
@@ -45,6 +53,10 @@ function conClas(clas, logCon) {
             }
             conClas(nextClasses, "logUp")
         })
+
+
+
+
 
 
 
@@ -113,8 +125,77 @@ function conClas(clas, logCon) {
         classs.append(mem)
         classs.append(next)
         classs.append(conditionsIf)
-
         next.addEventListener("click", () => {
+            let allData = {};
+            if (logCon == "logIn") {
+                let xhr = new XMLHttpRequest()
+                xhr.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195'. false);
+
+                let usName = String(usNameValue.value).trim()
+                let usPass = String(usPassValue.value)
+
+                if (!usName || !usPass) {
+                    alert("Заполните все поля")
+                    return;
+                }
+                try {
+                    xhr.send()
+                    if (xhr.status === 200 && xhr.responseText) {
+                        allData = JSON.parse(xhr.responseText)||{};
+                        console.log("Данные успешно прочитаны")
+                    } else {
+                        console.log("Произошла ошибка: " + xhr.status)
+                    }
+                } catch(e) {
+                    console.log("Ошибка чтения")
+                }
+            } else if (logCon == "logUp") {
+                let us = new XMLHttpRequest();
+                us.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
+                
+                let usName = String(usNameValue.value).trim()
+                let usPass = String(usPassValue.value)
+                let usWallet = 200
+                if (!usName || !usPass) {
+                    alert("Заполните все поля")
+                    return;
+                }
+                try {
+                    us.send();
+                    if (us.status === 200 && us.responseText) {
+                        allData = JSON.parse(us.responseText)||{};
+                        /*console.log("Найдено пользователей:", Object.keys(allData).length);*/
+                    }
+                } catch (error) {
+                    console.log("ошибка чтения");
+                }
+                if (usName in allData){
+                    alert("Такой пользователь уже существует")
+                    return;
+                }
+                
+                allData[usName] = {
+                    usPass: usPass,
+                    usWallet: usWallet
+                }
+                let dataJSON = JSON.stringify(allData)
+
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
+                try {
+                    xhr.send(dataJSON);
+                    if (xhr.status === 201 || xhr.status === 200) {
+                        console.log("Данные успешно отправленны")
+                        console.log(dataJSON)
+                    } else {
+                        alert("Произошла ошибка: " + xhr.status)
+                    }
+                } catch (error) {
+                    console.log("Произошла ошибка")
+                }
+            } else {
+                console.log("Ne bratan, ne ono")
+            }
             for (let elem of elems) {
                 elem.remove(classs)
             }
@@ -126,6 +207,13 @@ function conClas(clas, logCon) {
             }
             conClas(nextClasses[0])
         })
+
+
+
+
+
+
+
     } else if (clas == "Conditions") {
         presentClass = "Conditions"
         nextClasses = "ScreenLogIn"
@@ -139,13 +227,13 @@ function conClas(clas, logCon) {
         elems.push(srcName)
 
         let go1 = document.createElement("h5")
-        go1.innerText = "Этот сайт создан исключительно в комерческих целях! Создатель полность осуждает все вещи свящанные с такими темами и уж тем более не будет выводить этот проект на реальные, открытые биржи как способ для заработка и т.д."
+        go1.innerText = "Этот сайт создан исключительно в развлекательных целях! Создатель полность осуждает все вещи свящанные с такими темами и уж тем более не будет выводить этот проект на реальные, открытые биржи как способ для заработка и т.д."
         go1.setAttribute("id", "go1")
         go1.classList.add("conditions", "go")
         elems.push(go1)
 
         let go2 = document.createElement("h5")
-        go2.innerText = "Еще раз говорю что автор не пренуждает и каким либо действиям связанным с этой тематикой, что в школьном, что и в осозноном возрасте"
+        go2.innerText = "Еще раз говорю что автор не пренуждает к каким либо действиям связанными с этой тематикой, что в школьном, что и в осозноном возрасте"
         go2.setAttribute("id", "go2")
         go2.classList.add("conditions", "go")
         elems.push(go2)
@@ -157,7 +245,7 @@ function conClas(clas, logCon) {
         elems.push(go3)
 
         let go4 = document.createElement("h5")
-        go4.innerText = "(чей нибудь телефон)"
+        go4.innerText = "+177 9356 66 308"
         go4.setAttribute("id", "go4")
         go4.classList.add("conditions")
         elems.push(go4)
@@ -179,6 +267,13 @@ function conClas(clas, logCon) {
         next.classList.add("conditions")
         elems.push(next)
 
+        let g = document.createElement("h6")
+        g.innerText = '✔'
+        g.setAttribute("id", "g")
+        g.classList.add('conditions')
+        hide(g)
+        elems.push(g)
+
 
 
         classs.append(srcName)
@@ -187,6 +282,7 @@ function conClas(clas, logCon) {
         classs.append(go3)
         classs.append(go4)
         classs.append(atGalka)
+        classs.append(g)
         classs.append(atText)
         classs.append(next)
         next.addEventListener("click", () => {
@@ -197,7 +293,19 @@ function conClas(clas, logCon) {
         })
         atGalka.addEventListener('click', () => {
             atGalka.classList.toggle('active')
+            if (g.style.opacity == 0) {
+                show(g)
+            } else {
+                hide(g)
+            }
         })
+
+
+
+
+
+
+
     } else if (clas == "Base") {
         presentClass = "Base"
         nextClasses = ["Welcome", "Click"]
@@ -230,17 +338,16 @@ function conClas(clas, logCon) {
         replenishBtn.classList.add("base")
         elems.push(replenishBtn)
 
+
         let DEPafto = document.createElement("div")
         DEPafto.innerHTML = `
             <div id="depUp"></div>
-            <div id="depCenter">
-                <h6 id="q1"></h6>
-                <h6 id="q2"></h6>
-                <h6 id="q3"></h6>
-            </div>
+            <h6 id="q1">🍒</h6>
+            <h6 id="q2">💎</h6>
+            <h6 id="q3">🍊</h6>
+            <div id="depCenter"></div>
             <div id="depLever">
                 <div id='upl'><div>
-                <div id='downl'><div>
             </div>
             <div id="depDown"></div>
         `
@@ -262,10 +369,22 @@ function conClas(clas, logCon) {
         depText.classList.add("base")
         elems.push(depText)
 
-        let depValue = document.createElement("input")
-        depValue.setAttribute("type", "text")
-        depValue.setAttribute("id", "depInputValue")
-        depValue.classList.add("base")
+        let depValueInput = document.createElement("input")
+        depValueInput.setAttribute("type", "text")
+        depValueInput.setAttribute("id", "depInputValue")
+        depValueInput.classList.add("base")
+        elems.push(depValueInput)
+
+        let depValueText = document.createElement("h3");
+        depValueText.innerText = 'ставка:'
+        depValueText.setAttribute("id", "depValueText")
+        depValueText.classList.add("base")
+        elems.push(depValueText)
+
+        let depValue = document.createElement("h3");
+        depValue.innerText = '50р'
+        depValue.setAttribute("id", "depValue")
+        depValue.classList.add('base')
         elems.push(depValue)
 
         let depBtn = document.createElement("button")
@@ -282,6 +401,8 @@ function conClas(clas, logCon) {
         classs.append(replenishBtn)
         classs.append(DEPafto)
         classs.append(depText)
+        classs.append(depValueInput)
+        classs.append(depValueText)
         classs.append(depValue)
         classs.append(depBtn)
         exit.addEventListener("click", () => {
@@ -296,6 +417,13 @@ function conClas(clas, logCon) {
             }
             conClas(nextClasses[1])
         })
+
+
+
+
+
+
+        
     } else if (clas == "Click") {
         presentClass = "Click"
         nextClasses = "Base"
