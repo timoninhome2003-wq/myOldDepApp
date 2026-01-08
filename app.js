@@ -1,12 +1,28 @@
+let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
     elem.style.pointerEvents = "none"
 }
 function show(elem) {
     elem.style.opacity = "1"
-    elem.style.pointerEvents = "auto"
+    //elem.style.pointerEvents = "auto"
 }
-function conClas(clas, logCon) {
+function getRandomSyms() {
+    syms = ["🍒", "🍋", "💎", "❌"]
+    let pr = Math.random()
+    if (pr <= 0.3) {
+        return syms[3]
+    } else if (pr <= 0.6) {
+        return syms[1]
+    } else if (pr <= 0.85) {
+        return syms[0]
+    } else if (pr <= 1) {
+        return syms[2]
+    } else {
+        return getRandomSyms()
+    }
+}
+function conClas(clas, logCon, un) {
     let classs = document.querySelector("."+clas)
 
     if (clas == "Welcome") {
@@ -51,7 +67,7 @@ function conClas(clas, logCon) {
             for (let elem of elems) {
                 elem.remove(classs)
             }
-            conClas(nextClasses, "logUp")
+            conClas(nextClasses, "logUp", 'h')
         })
 
 
@@ -105,7 +121,7 @@ function conClas(clas, logCon) {
         elems.push(mem)
 
         let next = document.createElement("button")
-        next.innerText = "Войти"
+        next.innerText = "~~"
         next.setAttribute("id", "logInServis")
         next.classList.add("screenLogIn")
         elems.push(next)
@@ -124,32 +140,58 @@ function conClas(clas, logCon) {
         classs.append(usPassValue)
         classs.append(mem)
         classs.append(next)
+        if (logCon == "logIn" || screenName.innerText == 'Вход в аккаунт') {
+            next.innerText = "Войти"
+        } else if (logCon == "logUp" || screenName.innerText == 'Регистрация') {
+            next.innerText = "Готово"
+        }
         classs.append(conditionsIf)
         next.addEventListener("click", () => {
             let allData = {};
-            if (logCon == "logIn") {
-                let xhr = new XMLHttpRequest()
-                xhr.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195'. false);
+            if (logCon == "logIn" || screenName.innerText == 'Вход в аккаунт') {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
 
-                let usName = String(usNameValue.value).trim()
-                let usPass = String(usPassValue.value)
+                let usName = String(usNameValue.value).trim();
+                let usPass = String(usPassValue.value);
+                let usWallet = 0;
 
                 if (!usName || !usPass) {
-                    alert("Заполните все поля")
+                    alert("Заполните все поля");
                     return;
                 }
+    
+                let allData = {};
+    
                 try {
-                    xhr.send()
+                    xhr.send();
                     if (xhr.status === 200 && xhr.responseText) {
-                        allData = JSON.parse(xhr.responseText)||{};
-                        console.log("Данные успешно прочитаны")
+                        allData = JSON.parse(xhr.responseText) || {};
+                        if (usName in allData) {
+                            let userData = allData[usName];
+                
+                            if (userData.password === usPass) {
+                                console.log("Добро пожаловать, " + usName);
+                                usWallet = userData.wallet
+                                for (let elem of elems) {
+                                    elem.remove(classs)
+                                }
+                                conClas(nextClasses[1], 'h', usName)
+                            } else {
+                                alert("Неверный пароль!");
+                            }
+                        } else {
+                            alert("Пользователь не найден!");
+                        }
+            
                     } else {
-                        console.log("Произошла ошибка: " + xhr.status)
+                        console.log("Произошла ошибка: " + xhr.status);
                     }
                 } catch(e) {
-                    console.log("Ошибка чтения")
+                    console.log("Ошибка чтения");
+                    alert("Ошибка соединения с сервером");
                 }
-            } else if (logCon == "logUp") {
+            } else if (logCon == "logUp" || screenName.innerText == 'Регистрация') {
                 let us = new XMLHttpRequest();
                 us.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
                 
@@ -175,8 +217,8 @@ function conClas(clas, logCon) {
                 }
                 
                 allData[usName] = {
-                    usPass: usPass,
-                    usWallet: usWallet
+                    password: usPass,
+                    wallet: usWallet
                 }
                 let dataJSON = JSON.stringify(allData)
 
@@ -187,6 +229,10 @@ function conClas(clas, logCon) {
                     if (xhr.status === 201 || xhr.status === 200) {
                         console.log("Данные успешно отправленны")
                         console.log(dataJSON)
+                        for (let elem of elems) {
+                            elem.remove(classs)
+                        }
+                        conClas(nextClasses[1], 'h', usName)
                     } else {
                         alert("Произошла ошибка: " + xhr.status)
                     }
@@ -196,16 +242,12 @@ function conClas(clas, logCon) {
             } else {
                 console.log("Ne bratan, ne ono")
             }
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
-            conClas(nextClasses[1])
         })
         conditionsIf.addEventListener("click", () => {
             for (let elem of elems) {
                 elem.remove(classs)
             }
-            conClas(nextClasses[0])
+            conClas(nextClasses[0], 'h', 'h')
         })
 
 
@@ -227,7 +269,7 @@ function conClas(clas, logCon) {
         elems.push(srcName)
 
         let go1 = document.createElement("h5")
-        go1.innerText = "Этот сайт создан исключительно в развлекательных целях! Создатель полность осуждает все вещи свящанные с такими темами и уж тем более не будет выводить этот проект на реальные, открытые биржи как способ для заработка и т.д."
+        go1.innerText = "Этот сайт создан исключительно в развлекательных целях! Создатель полность осуждает все вещи связанные с такими темами и уж тем более не будет выводить этот проект на реальные, открытые биржи как способ для заработка и т.д."
         go1.setAttribute("id", "go1")
         go1.classList.add("conditions", "go")
         elems.push(go1)
@@ -251,9 +293,15 @@ function conClas(clas, logCon) {
         elems.push(go4)
 
         let atGalka = document.createElement('div')
+        atGalka.innerHTML = `
+            <h6 id='g' class='conditions'>✔</h6>
+        `
         atGalka.setAttribute("id", "atGalka")
         atGalka.classList.add("conditions")
         elems.push(atGalka)
+
+        let g = atGalka.querySelector("#g")
+        hide(g)
 
         let atText = document.createElement("h5")
         atText.innerText = 'Я понимаю и соглашаюсь с условиями соглашения'
@@ -267,13 +315,6 @@ function conClas(clas, logCon) {
         next.classList.add("conditions")
         elems.push(next)
 
-        let g = document.createElement("h6")
-        g.innerText = '✔'
-        g.setAttribute("id", "g")
-        g.classList.add('conditions')
-        hide(g)
-        elems.push(g)
-
 
 
         classs.append(srcName)
@@ -286,10 +327,11 @@ function conClas(clas, logCon) {
         classs.append(atText)
         classs.append(next)
         next.addEventListener("click", () => {
+            hide(g)
             for (let elem of elems) {
                 elem.remove(classs)
             }
-            conClas(nextClasses)
+            conClas(nextClasses, 'h', 'h')
         })
         atGalka.addEventListener('click', () => {
             atGalka.classList.toggle('active')
@@ -327,7 +369,7 @@ function conClas(clas, logCon) {
         elems.push(balanceText)
 
         let balanceValue = document.createElement("h4")
-        balanceValue.innerText = "200р" // %balance% + "р"
+        balanceValue.innerText = "~~р"
         balanceValue.setAttribute("id", "balanceValue")
         balanceValue.classList.add("base")
         elems.push(balanceValue)
@@ -355,16 +397,16 @@ function conClas(clas, logCon) {
         DEPafto.classList.add("base")
         elems.push(DEPafto)
 
-        let DEPup = document.querySelector("#depUp")
-        let depCenter = document.querySelector("#depCenter")
-        let q1 = document.querySelector("#q1")
-        let q2 = document.querySelector("#q2")
-        let q3 = document.querySelector("#q3")
-        let DEPlever = document.querySelector("#depLever")
-        let DEPdown = document.querySelector("#depDown")
+        let DEPup = DEPafto.querySelector("#depUp")
+        let depCenter = DEPafto.querySelector("#depCenter")
+        let q1 = DEPafto.querySelector("#q1")
+        let q2 = DEPafto.querySelector("#q2") 
+        let q3 = DEPafto.querySelector("#q3")
+        let DEPlever = DEPafto.querySelector("#depLever")
+        let DEPdown = DEPafto.querySelector("#depDown")
 
         let depText = document.createElement("h5")
-        depText.innerText = "Введите сумму для дэпа:"
+        depText.innerText = "Введите сумму для прокрутки:"
         depText.setAttribute("id", "depInputText")
         depText.classList.add("base")
         elems.push(depText)
@@ -382,7 +424,7 @@ function conClas(clas, logCon) {
         elems.push(depValueText)
 
         let depValue = document.createElement("h3");
-        depValue.innerText = '50р'
+        depValue.innerText = '0р'
         depValue.setAttribute("id", "depValue")
         depValue.classList.add('base')
         elems.push(depValue)
@@ -405,18 +447,143 @@ function conClas(clas, logCon) {
         classs.append(depValueText)
         classs.append(depValue)
         classs.append(depBtn)
+        depValueInput.addEventListener("input", () => {
+            depValue.innerText = depValueInput.value + "р"
+        })
         exit.addEventListener("click", () => {
             for (let elem of elems) {
                 elem.remove(classs)
             }
-            conClas(nextClasses[0])
+            conClas(nextClasses[0], 'h', 'h')
         })
         replenishBtn.addEventListener("click", () => {
             for (let elem of elems) {
                 elem.remove(classs)
             }
-            conClas(nextClasses[1])
+            conClas(nextClasses[1], 'h', usName)
         })
+        let usName = un
+        fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Ошибка! Код: " + response.status);
+            }
+        })
+        .then(function(data) {
+            balanceValue.innerText = data[usName].wallet + 'р'
+            let usBalance = data[usName].wallet
+            depBtn.addEventListener("click", () => {
+                if (!(depValueInput.value)) {
+                    alert("Введите сумму для прокрутки")
+                    return
+                }
+                if (depValueInput.value <= 0) {
+                    alert("Не жульничаем!")
+                    return
+                }
+                if (usBalance < depValueInput.value) {
+                    alert("Вашего баланса не хватает для ставки. Можете уменьшить ставку или <Пополнить> баланс")
+                    return
+                }
+                if (DEPlever) {
+                    DEPlever.style.transform = 'rotate(130deg)'; // Добавьте 'deg'
+                    DEPlever.style.transition = 'transform 0.3s ease';
+                } else {
+                    DEPlever = document.querySelector("#depLever")
+                    DEPlever.style.transform = 'rotate(130deg)'; // Добавьте 'deg'
+                    DEPlever.style.transition = 'transform 0.3s ease';
+                }
+                if (DEPdown) {
+                    DEPdown.style.transform = 'translateY(20px)';
+                    DEPdown.style.transition = 'transform 0.3s ease';
+                } else {
+                    DEPdown = document.querySelector("#depDown")
+                    DEPdown.style.transform = 'translateY(20px)';
+                    DEPdown.style.transition = 'transform 0.3s ease';
+                }
+                usBalance -= depValueInput.value
+                q1.innerText = getRandomSyms()
+                q2.innerText = getRandomSyms()
+                q3.innerText = getRandomSyms()
+                let pr = Number(depValueInput.value)
+                let kp = 0
+                if (q1.innerText == q2.innerText && q2.innerText == q3.innerText) {
+                    if (q1.innerText == '❌') {
+                        //alert("Пиздец ты лох ебанный, иди убейся, боооже")
+                    } else if (q1.innerText == '🍊') {
+                        kp = 5 // в 2 раза меньше
+                    } else if (q1.innerText == '🍋') {
+                        kp = 10 // тоже самое
+                    } else if (q1.innerText == '🍒') {
+                        kp = 50 // в 5 раз больше
+                    } else if (q1.innerText == '💎') {
+                        kp = 1000 // в 100 раз больше
+                    } else {
+                        alert("Вы сделали невозможное! Мега ошибка нах")
+                    }
+                    usBalance += kp * (pr / 10)
+                    balanceValue.innerText = usBalance
+                    
+                    data[usName].wallet = usBalance
+                    let dataJSON = JSON.stringify(data);
+
+                    fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: dataJSON
+                    })
+                    .then(function(response) {
+                        if (response.status === 201) {
+                            console.log("Данные успешно отправлены!");
+                            return response.json();
+                        } else {
+                            console.log("Ошибка! Код: " + response.status);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("Ошибка соединения!");
+                    });
+                } else {
+                    data[usName].wallet = usBalance
+                    balanceValue.innerText = usBalance
+
+                    let dataJSON = JSON.stringify(data) 
+                    fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: dataJSON
+                    })
+                    .then(function(response) {
+                        if (response.status === 201) {
+                            console.log("Данные успешно отправлены!");
+                            return response.json();
+                        } else {
+                            console.log("Ошибка! Код: " + response.status);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("Ошибка соединения!");
+                    });
+                }
+                setTimeout(() => {
+                    if (DEPlever) {
+                        DEPlever.style.transform = 'rotate(25deg)';
+                    }
+                    if (DEPdown) {
+                        DEPdown.style.transform = 'translateY(0px)';
+                    }
+                }, 500);
+            })
+        })
+        .catch(function(error) {
+            console.log("Ошибка соединения!");
+        });
 
 
 
@@ -439,7 +606,7 @@ function conClas(clas, logCon) {
         elems.push(balanceText)
 
         let balanceValue = document.createElement("h4")
-        balanceValue.innerText = "200р" // %balance% + "р"
+        balanceValue.innerText = "~~р"
         balanceValue.setAttribute("id", "balanceValueCl")
         balanceValue.classList.add("click")
         elems.push(balanceValue)
@@ -449,7 +616,7 @@ function conClas(clas, logCon) {
             <div id="vne"></>
             <div id="vnu"></>
             <h1 id="sym">$</h1>
-        ` // Возможно понадобиться для тройного деления(внешка, внутрь, сим) 
+        ` 
         money.setAttribute("id", "money")
         money.classList.add("click")
         elems.push(money)
@@ -470,12 +637,53 @@ function conClas(clas, logCon) {
         classs.append(balanceValue)
         classs.append(money)
         classs.append(back)
-        back.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
+        let usName = un
+        fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Ошибка! Код: " + response.status);
             }
-            conClas(nextClasses)
         })
+        .then(function(data) {
+            balanceValue.innerText = String(data[usName].wallet) + 'р'
+            let usBalance = data[usName].wallet
+            money.addEventListener("click", () => {
+                usBalance += 1
+                balanceValue.innerText = usBalance + 'р'
+            })
+            back.addEventListener("click", () => {
+                data[usName].wallet = usBalance
+                let dataJSON = JSON.stringify(data);
+
+                fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: dataJSON
+                })
+                .then(function(response) {
+                    if (response.status === 201) {
+                        console.log("Данные успешно отправлены!");
+                        return response.json();
+                    } else {
+                        console.log("Ошибка! Код: " + response.status);
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Ошибка соединения!");
+                });
+                for (let elem of elems) {
+                    elem.remove(classs)
+                }
+                conClas(nextClasses, 'h', usName)
+            })
+        })
+        .catch(function(error) {
+            console.log("Ошибка соединения!");
+        });
     }
 }
 
