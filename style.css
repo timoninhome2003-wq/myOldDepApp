@@ -198,10 +198,9 @@ body {
 #g {
     position: fixed;
     display: inline-block;
-    top: 73.5vh;
-    left: 28px;
-    transform: translate(50%, -50%);
-    font-size: calc((3vw + 3vh)/2);
+    top: 70.5vh;
+    left: 35px;
+    font-size: 35px;
 }
 #atText {
     position: fixed;
