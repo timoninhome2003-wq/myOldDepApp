@@ -1,5 +1,16 @@
-const server = 'https://crossorigin.me/' + 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195'
-let syms = 0;
+function getProxiedUrl(url) {
+    const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://thingproxy.freeboard.io/fetch/',
+        'https://crossorigin.me/'
+    ];
+    
+    const proxyIndex = 0; 
+    return proxies[proxyIndex] + encodeURIComponent(url);
+}
+
+const server = getProxiedUrl('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195');let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
     elem.style.pointerEvents = "none"
