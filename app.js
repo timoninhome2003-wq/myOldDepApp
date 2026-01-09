@@ -1,4 +1,4 @@
-const server = 'https://corsproxy.io/?' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
+const server = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
 let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
