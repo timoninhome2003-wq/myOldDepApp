@@ -3,10 +3,11 @@ function getProxiedUrl(url) {
         'https://api.allorigins.win/raw?url=',
         'https://corsproxy.io/?',
         'https://thingproxy.freeboard.io/fetch/',
-        'https://crossorigin.me/'
+        'https://crossorigin.me/',
+        'https://api.codetabs.com/v1/proxy/?quest=' 
     ];
     
-    const proxyIndex = 3; 
+    const proxyIndex = 4; 
     return proxies[proxyIndex] + encodeURIComponent(url);
 }
 
