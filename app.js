@@ -1,3 +1,4 @@
+const server = 'https://corsproxy.io/?' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
 let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
@@ -150,7 +151,7 @@ function conClas(clas, logCon, un) {
             let allData = {};
             if (logCon == "logIn" || screenName.innerText == 'Вход в аккаунт') {
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
+                xhr.open('GET', server, false);
 
                 let usName = String(usNameValue.value).trim();
                 let usPass = String(usPassValue.value);
@@ -193,7 +194,7 @@ function conClas(clas, logCon, un) {
                 }
             } else if (logCon == "logUp" || screenName.innerText == 'Регистрация') {
                 let us = new XMLHttpRequest();
-                us.open('GET', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
+                us.open('GET', server, false);
                 
                 let usName = String(usNameValue.value).trim()
                 let usPass = String(usPassValue.value)
@@ -223,7 +224,7 @@ function conClas(clas, logCon, un) {
                 let dataJSON = JSON.stringify(allData)
 
                 let xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', false);
+                xhr.open('POST', server, false);
                 try {
                     xhr.send(dataJSON);
                     if (xhr.status === 201 || xhr.status === 200) {
@@ -463,7 +464,7 @@ function conClas(clas, logCon, un) {
             conClas(nextClasses[1], 'h', usName)
         })
         let usName = un
-        fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
+        fetch(server)
         .then(function(response) {
             if (response.ok) {
                 return response.json();
@@ -529,7 +530,7 @@ function conClas(clas, logCon, un) {
                     data[usName].wallet = usBalance
                     let dataJSON = JSON.stringify(data);
 
-                    fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                    fetch(server, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -552,7 +553,7 @@ function conClas(clas, logCon, un) {
                     balanceValue.innerText = usBalance
 
                     let dataJSON = JSON.stringify(data) 
-                    fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                    fetch(server, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -638,7 +639,7 @@ function conClas(clas, logCon, un) {
         classs.append(money)
         classs.append(back)
         let usName = un
-        fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195')
+        fetch(server)
         .then(function(response) {
             if (response.ok) {
                 return response.json();
@@ -657,7 +658,7 @@ function conClas(clas, logCon, un) {
                 data[usName].wallet = usBalance
                 let dataJSON = JSON.stringify(data);
 
-                fetch('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195', {
+                fetch(server, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
