@@ -1,4 +1,4 @@
-const server = 'https://cool-mountain-ec46.timon-inhome2003.workers.dev/' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195');
+const server = 'https://cool-mountain-ec46.timon-inhome2003.workers.dev/proxy?url=' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195');
 let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
