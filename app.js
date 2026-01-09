@@ -1,17 +1,5 @@
-function getProxiedUrl(url) {
-    const proxies = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://thingproxy.freeboard.io/fetch/',
-        'https://crossorigin.me/',
-        'https://api.codetabs.com/v1/proxy/?quest=' 
-    ];
-    
-    const proxyIndex = 4; 
-    return proxies[proxyIndex] + encodeURIComponent(url);
-}
-
-const server = getProxiedUrl('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195');let syms = 0;
+const server = 'https://school-proxy.timonin.workers.dev/?url=' + encodeURIComponent('http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195');
+let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
     elem.style.pointerEvents = "none"
