@@ -1,4 +1,4 @@
-const server = 'http://localhost:8080/';
+const server = 'http://localhost:9090/';
 let syms = 0;
 function hide(elem) {
     elem.style.opacity = "0"
