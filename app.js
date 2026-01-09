@@ -6,7 +6,7 @@ function getProxiedUrl(url) {
         'https://crossorigin.me/'
     ];
     
-    const proxyIndex = 1; 
+    const proxyIndex = 2; 
     return proxies[proxyIndex] + encodeURIComponent(url);
 }
 
