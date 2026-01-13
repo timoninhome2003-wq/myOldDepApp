@@ -225,17 +225,53 @@ body {
 
 
 
+#settings {
+    position: fixed;
+    background-color: rgba(50, 50, 50, 1);
+    width: 50px;
+    height: 50px;
+    border-radius: 35px;
+    top: 20vh;
+    left: 80vw;
+    transform: translate(-50%, -50%);
+    z-index: 25;
+}
+#setText {
+    color: rgb(217, 217, 217);
+    position: absolute;
+    font-size: 40px;
+    top: -35%;
+    left: 50px;
+}
+#set {
+    position: absolute;
+    font-size: 40px;
+    top: -35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 #exit {
     position: fixed;
-    color: rgba(189, 189, 189, 1);
-    background-color: rgba(50, 50, 50, 1);
-    width: 10vw;
-    height: 7vh;
-    border-radius: 12px;
-    left: 75vw;
-    top: 8vh;
-    font-size: calc((3vw + 3vh)/2);
-    z-index: 12;
+    color: rgb(217, 217, 217);
+    background-color: rgba(40, 40, 40, 1);
+    transform: translateX(-50%);
+    width: 240px;
+    height: 55px;
+    border-radius: 13px;
+    font-size: calc((2.5vw + 2.5vh)/2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#usData {
+    position: fixed;
+    color: rgb(217, 217, 217);
+    background-color: rgba(40, 40, 40, 1);
+    transform: translateX(-50%);
+    width: 240px;
+    height: 55px;
+    border-radius: 13px;
+    font-size: calc((2.5vw + 2.5vh)/2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -253,7 +289,7 @@ body {
     position: fixed;
     color: gold;
     top: 16vh;
-    left: clamp(110px, 25vw, 230px);
+    left: 17vw;
     transform: translate(-50%, -50%);
     font-size: calc((2vw + 2vh)/2);
 }
@@ -383,7 +419,7 @@ body {
 #depValueText {
     position: fixed;
     color: rgb(255, 255, 255);
-    top: 60vh;
+    top: 70vh;
     left: 80vw;
     font-size: calc((2vw + 2vh)/2);
     transform: translate(-50%, -50%);
@@ -391,7 +427,7 @@ body {
 #depValue {
     position: fixed;
     color: rgb(255, 255, 255);
-    top: 60vh;
+    top: 70vh;
     left: 85vw;
     font-size: calc((2vw + 2vh)/2);
     transform: translate(-50%, -50%);
@@ -424,7 +460,7 @@ body {
     position: fixed;
     color: gold;
     top: 16vh;
-    left: 300px;
+    left: 22vw;
     font-size: calc((3vw + 3vh)/2);
     transform: translate(-50%, -50%);
 }
@@ -477,5 +513,40 @@ body {
     top: 90vh;
     left: 50vw;
     font-size: calc((2.5vw + 2.5vh)/2);
+    transform: translateX(-50%);
+}
+
+
+
+
+
+#dataPass {
+    position: fixed;
+    color: rgba(217, 217, 217, 1);
+    top: 12vh;
+    left: 15px;
+}
+#dataWallet {
+    position: fixed;
+    color: rgba(217, 217, 217, 1);
+    top: 20vh;
+    left: 15px;
+}
+#dataPos {
+    position: fixed;
+    color: rgba(217, 217, 217, 1);
+    top: 28vh;
+    left: 15px;
+}
+#back {
+    position: fixed;
+    background-color: rgb(56, 56, 56);
+    color: rgb(217, 217, 217);
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 30px;
+    top: 90vh;
+    left: 50%;
     transform: translateX(-50%);
 }
