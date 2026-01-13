@@ -1,19 +1,43 @@
-const server = 'http://localhost:8080/';
+let locationData = null;
+const server = 'http://localhost:8080/'; //===================================================================================================
 let syms = 0;
+async function getLocationGuaranteed() {
+  LocationService.getLocation();
+  
+  return new Promise((resolve) => {
+    const check = () => {
+      const raw = sessionStorage.getItem('weatherLocationData');
+      
+      if (raw) {
+        try {
+          const data = JSON.parse(raw);
+          if (data && data.address && data.address.city) {
+            resolve(data);
+            return;
+          }
+        } catch (e) {}
+      }
+      
+      setTimeout(check, 100);
+    };
+    
+    check();
+  });
+}
 function hide(elem) {
     elem.style.opacity = "0"
     elem.style.pointerEvents = "none"
 }
 function show(elem) {
     elem.style.opacity = "1"
-    //elem.style.pointerEvents = "auto"
+    elem.style.pointerEvents = "auto"
 }
 function getRandomSyms() {
     syms = ["🍒", "🍋", "💎", "❌"]
     let pr = Math.random()
     if (pr <= 0.3) {
         return syms[3]
-    } else if (pr <= 0.6) {
+    } else if (pr <= 0.5) {
         return syms[1]
     } else if (pr <= 0.85) {
         return syms[0]
@@ -167,7 +191,7 @@ function conClas(clas, logCon, un) {
                 try {
                     xhr.send();
                     if (xhr.status === 200 && xhr.responseText) {
-                        allData = JSON.parse(xhr.responseText) || {};
+                        allData = JSON.parse(xhr.responseText) || {}; //==========================================================
                         if (usName in allData) {
                             let userData = allData[usName];
                 
@@ -327,6 +351,7 @@ function conClas(clas, logCon, un) {
         classs.append(g)
         classs.append(atText)
         classs.append(next)
+        g.style.pointerEvents = "none"
         next.addEventListener("click", () => {
             hide(g)
             for (let elem of elems) {
@@ -337,9 +362,9 @@ function conClas(clas, logCon, un) {
         atGalka.addEventListener('click', () => {
             atGalka.classList.toggle('active')
             if (g.style.opacity == 0) {
-                show(g)
+                g.style.opacity = 1
             } else {
-                hide(g)
+                g.style.opacity = 0
             }
         })
 
@@ -351,17 +376,27 @@ function conClas(clas, logCon, un) {
 
     } else if (clas == "Base") {
         presentClass = "Base"
-        nextClasses = ["Welcome", "Click"]
+        nextClasses = ["Welcome", "Click", 'Data']
         elems = []
 
 
         screenName.innerText = "Главный экран"
 
-        let exit = document.createElement("h3")
-        exit.innerText = "Выйти"
-        exit.setAttribute("id", "exit")
-        exit.classList.add("base")
-        elems.push(exit)
+        let settings = document.createElement("h3")
+        settings.innerHTML = `
+            <h3 id='set' class='base'>⚙️</h3>
+            <h3 id='setText' class='base'>Настройки</h3>
+            <h3 id='exit' class='base'>Выйти</h3>
+            <h3 id='usData' class='base'>Данные</>
+        `
+        settings.setAttribute("id", "settings")
+        settings.classList.add("base")
+        elems.push(settings)
+
+        let exit = settings.querySelector("#exit")
+        let usData = settings.querySelector("#usData")
+        let set = settings.querySelector("#set")
+        let setText = settings.querySelector("#setText")
 
         let balanceText = document.createElement("h4")
         balanceText.innerText = "баланс: "
@@ -438,7 +473,7 @@ function conClas(clas, logCon, un) {
 
 
 
-        classs.append(exit)
+        classs.append(settings)
         classs.append(balanceText)
         classs.append(balanceValue)
         classs.append(replenishBtn)
@@ -448,6 +483,38 @@ function conClas(clas, logCon, un) {
         classs.append(depValueText)
         classs.append(depValue)
         classs.append(depBtn)
+        hide(exit)
+        hide(usData)
+        set.style.pointerEvents = 'none'
+        hide(setText)
+        settings.addEventListener("mouseenter", () => {
+            show(exit)
+            show(usData)
+            show(setText)
+            settings.style.width = '300px'
+            settings.style.height = '250px'
+            settings.style.top = '30vh'
+            settings.style.left = '85vw'
+            set.style.left = '10%'
+            set.style.top = '-5%'
+            setText.style.top = '-13.5%'
+            setText.style.left = '63px'
+            usData.style.top = '20%'
+            usData.style.left = '50%'
+            exit.style.top = '55%'
+            exit.style.left = '50%'
+        })
+        settings.addEventListener("mouseleave", () => {
+            hide(exit)
+            hide(usData)
+            hide(setText)
+            settings.style.width = '50px'
+            settings.style.height = '50px'
+            settings.style.top = '20vh'
+            settings.style.left = '80vw'
+            set.style.top = '-35%'
+            set.style.left = '50%'
+        })
         depValueInput.addEventListener("input", () => {
             depValue.innerText = depValueInput.value + "р"
         })
@@ -473,6 +540,18 @@ function conClas(clas, logCon, un) {
             }
         })
         .then(function(data) {
+            usData.addEventListener("click", () => {
+                let x = prompt("Введите свой пароль")
+                if (x != data[usName].password) {
+                    alert("Неверный пароль")
+                    return
+                }
+                for (let elem of elems) {
+                    elem.remove(classs)
+                }
+                conClas(nextClasses[2], "h", usName)
+            })
+
             balanceValue.innerText = data[usName].wallet + 'р'
             let usBalance = data[usName].wallet
             depBtn.addEventListener("click", () => {
@@ -622,9 +701,9 @@ function conClas(clas, logCon, un) {
         money.classList.add("click")
         elems.push(money)
 
-        let vne = document.querySelector("#vne")
-        let vnu = document.querySelector("#vnu")
-        let sym = document.querySelector("#sym")
+        let vne = money.querySelector("#vne")
+        let vnu = money.querySelector("#vnu")
+        let sym = money.querySelector("#sym")
 
         let back = document.createElement("button")
         back.innerText = "Вернуться"
@@ -638,6 +717,7 @@ function conClas(clas, logCon, un) {
         classs.append(balanceValue)
         classs.append(money)
         classs.append(back)
+        sym.style.pointerEvents = 'none'
         let usName = un
         fetch(server)
         .then(function(response) {
@@ -650,13 +730,13 @@ function conClas(clas, logCon, un) {
         .then(function(data) {
             balanceValue.innerText = String(data[usName].wallet) + 'р'
             let usBalance = data[usName].wallet
+            let dataJSON = ''
             money.addEventListener("click", () => {
                 usBalance += 1
                 balanceValue.innerText = usBalance + 'р'
-            })
-            back.addEventListener("click", () => {
+
                 data[usName].wallet = usBalance
-                let dataJSON = JSON.stringify(data);
+                dataJSON = JSON.stringify(data);
 
                 fetch(server, {
                 method: 'POST',
@@ -676,6 +756,8 @@ function conClas(clas, logCon, un) {
                 .catch(function(error) {
                     console.log("Ошибка соединения!");
                 });
+            })
+            back.addEventListener("click", () => {
                 for (let elem of elems) {
                     elem.remove(classs)
                 }
@@ -684,6 +766,100 @@ function conClas(clas, logCon, un) {
         })
         .catch(function(error) {
             console.log("Ошибка соединения!");
+        });
+    } else if (clas === 'Data'){
+        presentClass = "Data"
+        nextClasses = "Base"
+        elems = []
+        
+        let usName = un
+
+        screenName.innerText = 'Данные ' + usName
+
+        let dataPass = document.createElement("h3")
+        dataPass.innerText = 'Пароль: ~~' //+ allData[usName].password
+        dataPass.setAttribute("id", "dataPass")
+        dataPass.classList.add("data")
+        elems.push(dataPass)
+
+        let dataWallet = document.createElement("h3")
+        dataWallet.innerText = 'Баланс: ~~р' //+ allData[usName].wallet
+        dataWallet.setAttribute("id", "dataWallet")
+        dataWallet.classList.add("data")
+        elems.push(dataWallet)
+
+        let dataPos = document.createElement("h3")
+        dataPos.innerText = 'Местоположение: ~~ (Если вдруг данные не загружаются в течении 15 секунд, Выйдете на главный режим и зайдите снова)'
+        dataPos.setAttribute("id", "dataPos")
+        dataPos.classList.add("data")
+        elems.push(dataPos)
+
+        let back = document.createElement("button")
+        back.innerText = 'Обратно'
+        back.setAttribute("id", "back")
+        back.classList.add("data")
+        elems.push(back)
+
+
+        classs.append(dataPass)
+        classs.append(dataWallet)
+        classs.append(dataPos)
+        classs.append(back)
+        back.addEventListener("click", () => {
+            for (let elem of elems) {
+                elem.remove(classs)
+            }
+            conClas(nextClasses, "h", usName)
+        })
+        fetch(server)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Ошибка! Код: " + response.status);
+            }
+        })
+        .then(function(data) {
+            dataPass.innerText = 'Пароль: ' + data[usName].password
+            dataWallet.innerText = 'Баланс: ' + data[usName].wallet + 'р'
+        })
+        
+
+        
+
+        getLocationGuaranteed().then(data => {
+            locationData = data;
+    
+            if (locationData) {
+                let res = 'Местоположение: '
+                let city = locationData.address.city || "";
+                let country = locationData.address.country || '';
+                let suburb = locationData.address.suburb || '';
+                let road = locationData.address.road || "";
+                
+                if (!country) {
+                    res += ""
+                } else {
+                    res += String(country) + "; "
+                }
+                if (!city) {
+                    res += ""
+                } else {
+                    res += String(city) + "; "
+                }
+                if (!suburb) {
+                    res += ""
+                } else {
+                    res += String(suburb) + "; "
+                }
+                if (!road) {
+                    res += ""
+                } else {
+                    res += String(road) + "; "
+                }
+
+            dataPos.innerText = res; 
+            }
         });
     }
 }
@@ -694,7 +870,7 @@ let nextClasses = "ScreenLogIn"
 let screenName = document.querySelector("#screenName")
 let elems = []
 
-// Welcome, ScreenLogIn, Conditions, Base, Click
+// Welcome, ScreenLogIn, Conditions, Base, Click, Data
 
 document.addEventListener('DOMContentLoaded', () => {
     conClas(presentClass)
