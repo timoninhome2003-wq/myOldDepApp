@@ -3,31 +3,112 @@
   <head>
     <title>DEP</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Добавляем плавный старт */
+        body {
+            opacity: 0;
+            animation: fadeInBody 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+        
+        @keyframes fadeInBody {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Индикатор загрузки */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(66, 66, 66, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 149, 0, 0.3);
+            border-top: 5px solid rgba(255, 149, 0, 1);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
   </head>
   <body>
+    <!-- Индикатор загрузки -->
+    <div id="page-loader">
+        <div class="loader-spinner"></div>
+    </div>
+    
     <div id="circle"></div>
     <p id="webName">Free DEP</p>
     <h1 id="screenName">Добро пожаловать!</h1>
 
     
-    <div class="Welcome web">
+    <!-- Welcome screen - ДОБАВЛЯЕМ КНОПКИ ПРЯМО СЮДА -->
+    <div class="Welcome web" style="display: block; opacity: 1;">
+        <h3 id="reclamaAkk">Для лучшего использования рекомендуется создать аккаунт</h3>
+        <button id="logIn">Войти в аккаунт</button>
+        <button id="logUp">Создать аккаунт</button>
     </div>
 
-    <div class="ScreenLogIn web">
+    <!-- Остальные экраны (остаются пустыми, заполняются через JS) -->
+    <div class="ScreenLogIn web" style="display: none; opacity: 0;">
     </div>
 
-    <div class="Conditions web">
+    <div class="Conditions web" style="display: none; opacity: 0;">
     </div>
 
-    <div class="Base web">
+    <div class="Base web" style="display: none; opacity: 0;">
     </div>
 
-    <div class="Click web">
+    <div class="Click web" style="display: none; opacity: 0;">
     </div>
 
-    <div class="Data web">
+    <div class="Data web" style="display: none; opacity: 0;">
     </div>
+    
+    <script>
+        // Скрываем загрузчик после загрузки страницы
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('page-loader');
+                loader.style.opacity = '0';
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 500);
+            
+            // Добавляем обработчики для кнопок на первом экране
+            document.getElementById('logIn').addEventListener('click', function() {
+                // Плавный переход к экрану входа
+                transitionToScreen('Welcome', 'ScreenLogIn').then(() => {
+                    conClas("ScreenLogIn", "logIn");
+                });
+            });
+            
+            document.getElementById('logUp').addEventListener('click', function() {
+                // Плавный переход к экрану регистрации
+                transitionToScreen('Welcome', 'ScreenLogIn').then(() => {
+                    conClas("ScreenLogIn", "logUp", 'h');
+                });
+            });
+        });
+    </script>
   </body>
-  <script src="getUserAdress.js"></script> <!--Для Data web-->
-  <script src="app.js"></script> <!--deleteServer-->
+  <script src="getUserAdress.js"></script>
+  <script src="app.js"></script> 
 </html>
