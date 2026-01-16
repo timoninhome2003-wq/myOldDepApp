@@ -734,5 +734,4 @@ if (typeof window !== 'undefined') {
     }
     console.log('💾 В sessionStorage есть данные:', hasLocationInStorage());
   });
-
 }
