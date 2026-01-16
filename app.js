@@ -1,5 +1,87 @@
+let currentScreen = null;
+let isTransitioning = false;
+
+// Функция для ожидания
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Плавный переход между экранами
+async function transitionToScreen(oldClass, newClass) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    
+    try {
+        // Находим элементы
+        const oldElement = document.querySelector(`.${oldClass}`);
+        const newElement = document.querySelector(`.${newClass}`);
+        
+        if (!newElement) {
+            console.error(`Элемент .${newClass} не найден!`);
+            return;
+        }
+        
+        // Если есть старый элемент - скрываем его с анимацией
+        if (oldElement) {
+            oldElement.classList.remove('active');
+            oldElement.style.opacity = '0';
+            oldElement.style.transform = 'translateY(-20px)';
+            oldElement.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            
+            // Ждем анимации
+            await wait(400);
+            
+            // Скрываем старый элемент
+            oldElement.style.display = 'none';
+        }
+        
+        // Показываем новый экран
+        newElement.style.display = 'block';
+        
+        // Анимация появления нового экрана
+        await wait(50);
+        newElement.style.opacity = '1';
+        newElement.style.transform = 'translateY(0)';
+        newElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        newElement.classList.add('active');
+        
+        // Обновляем текущий экран
+        currentScreen = newClass;
+        
+    } catch (error) {
+        console.error('Ошибка при переходе:', error);
+    } finally {
+        isTransitioning = false;
+    }
+}
+
+// Плавное скрытие элементов
+async function fadeOutElements(elements) {
+    if (!elements || elements.length === 0) return;
+    
+    for (let i = 0; i < elements.length; i++) {
+        const elem = elements[i];
+        if (elem && elem.style) {
+            elem.style.transition = `opacity 0.3s ease ${i * 0.05}s, transform 0.3s ease ${i * 0.05}s`;
+            elem.style.opacity = '0';
+            elem.style.transform = 'translateY(10px)';
+        }
+    }
+    
+    await wait(400);
+    
+    // Удаляем элементы после анимации
+    elements.forEach(elem => {
+        if (elem && elem.parentNode) {
+            elem.parentNode.removeChild(elem);
+        }
+    });
+}
+
+// ========== ОСТАЛЬНОЙ ВАШ КОД БЕЗ ИЗМЕНЕНИЙ ==========
+
 let locationData = null;
-const server = 'http://localhost:8080/'; //===================================================================================================
+const server = 'http://localhost:8080/';
 let syms = 0;
 async function getLocationGuaranteed() {
   LocationService.getLocation();
@@ -47,55 +129,24 @@ function getRandomSyms() {
         return getRandomSyms()
     }
 }
-function conClas(clas, logCon, un) {
+
+async function conClas(clas, logCon, un) {
     let classs = document.querySelector("."+clas)
 
     if (clas == "Welcome") {
         presentClass = "Welcome"
         nextClasses = "ScreenLogIn"
         elems = []
-
-
-        screenName.innerText = "Добро пожаловать!"
-
-        let reclamaAkk = document.createElement("h3");
-        reclamaAkk.innerText = "Для лучшего использования рекомендуется создать аккаунт"
-        reclamaAkk.setAttribute("id", "reclamaAkk")
-        reclamaAkk.classList.add("welcome")
-        elems.push(reclamaAkk)
         
-        let logInBut = document.createElement("button");
-        logInBut.innerText = "Войти в аккаунт"
-        logInBut.setAttribute("id", "logIn")
-        logInBut.classList.add("welcome")
-        elems.push(logInBut)
-
-        let logUpBut = document.createElement("button");
-        logUpBut.innerText = "Создать аккаунт"
-        logUpBut.setAttribute("id", "logUp")
-        logUpBut.classList.add("welcome")
-        elems.push(logUpBut)
-
-
-
-        classs.append(reclamaAkk)
-        classs.append(logInBut)
-        classs.append(logUpBut)
-
-        logInBut.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
-            conClas(nextClasses, "logIn")
-        })
-        logUpBut.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
-            conClas(nextClasses, "logUp", 'h')
-        })
-
-
+        // НЕ создаем кнопки здесь, они уже есть в HTML
+        // Просто добавляем их в массив elems для управления
+        const reclamaAkk = document.getElementById("reclamaAkk");
+        const logInBut = document.getElementById("logIn");
+        const logUpBut = document.getElementById("logUp");
+        
+        elems.push(reclamaAkk);
+        elems.push(logInBut);
+        elems.push(logUpBut);
 
 
 
@@ -165,13 +216,17 @@ function conClas(clas, logCon, un) {
         classs.append(usPassValue)
         classs.append(mem)
         classs.append(next)
+        mem.addEventListener("click", () => {
+            mem.classList.add("ultra-cringe-shake")
+            setTimeout(function(){mem.classList.remove("ultra-cringe-shake")}, 500)
+        })
         if (logCon == "logIn" || screenName.innerText == 'Вход в аккаунт') {
             next.innerText = "Войти"
         } else if (logCon == "logUp" || screenName.innerText == 'Регистрация') {
             next.innerText = "Готово"
         }
         classs.append(conditionsIf)
-        next.addEventListener("click", () => {
+        next.addEventListener("click", async () => {
             let allData = {};
             if (logCon == "logIn" || screenName.innerText == 'Вход в аккаунт') {
                 let xhr = new XMLHttpRequest();
@@ -198,9 +253,8 @@ function conClas(clas, logCon, un) {
                             if (userData.password === usPass) {
                                 console.log("Добро пожаловать, " + usName);
                                 usWallet = userData.wallet
-                                for (let elem of elems) {
-                                    elem.remove(classs)
-                                }
+                                await fadeOutElements(elems);
+                                await transitionToScreen(presentClass, nextClasses[1]);
                                 conClas(nextClasses[1], 'h', usName)
                             } else {
                                 alert("Неверный пароль!");
@@ -254,9 +308,8 @@ function conClas(clas, logCon, un) {
                     if (xhr.status === 201 || xhr.status === 200) {
                         console.log("Данные успешно отправленны")
                         console.log(dataJSON)
-                        for (let elem of elems) {
-                            elem.remove(classs)
-                        }
+                        await fadeOutElements(elems);
+                        await transitionToScreen(presentClass, nextClasses[1]);
                         conClas(nextClasses[1], 'h', usName)
                     } else {
                         alert("Произошла ошибка: " + xhr.status)
@@ -268,10 +321,9 @@ function conClas(clas, logCon, un) {
                 console.log("Ne bratan, ne ono")
             }
         })
-        conditionsIf.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
+        conditionsIf.addEventListener("click", async () => {
+            await fadeOutElements(elems);
+            await transitionToScreen(presentClass, nextClasses[0]);
             conClas(nextClasses[0], 'h', 'h')
         })
 
@@ -300,7 +352,8 @@ function conClas(clas, logCon, un) {
         elems.push(go1)
 
         let go2 = document.createElement("h5")
-        go2.innerText = "Еще раз говорю что автор не пренуждает к каким либо действиям связанными с этой тематикой, что в школьном, что и в осозноном возрасте"
+        go2.innerText = `Еще раз говорю что автор не пренуждает к каким либо действиями связанными с этой тематикой, 
+        что в школьном, что и в осозноном возрасте`
         go2.setAttribute("id", "go2")
         go2.classList.add("conditions", "go")
         elems.push(go2)
@@ -352,11 +405,14 @@ function conClas(clas, logCon, un) {
         classs.append(atText)
         classs.append(next)
         g.style.pointerEvents = "none"
-        next.addEventListener("click", () => {
+        go4.addEventListener("click", () => {
+            go4.classList.add("ultra-cringe-shake")
+            setTimeout(function(){go4.classList.remove("ultra-cringe-shake")}, 1000)
+        })
+        next.addEventListener("click", async () => {
             hide(g)
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
+            await fadeOutElements(elems);
+            await transitionToScreen(presentClass, nextClasses);
             conClas(nextClasses, 'h', 'h')
         })
         atGalka.addEventListener('click', () => {
@@ -518,16 +574,14 @@ function conClas(clas, logCon, un) {
         depValueInput.addEventListener("input", () => {
             depValue.innerText = depValueInput.value + "р"
         })
-        exit.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
-            conClas(nextClasses[0], 'h', 'h')
+        exit.addEventListener("click", async () => {
+            await fadeOutElements(elems);
+            await transitionToScreen(presentClass, nextClasses[0]);
+            location.reload();
         })
-        replenishBtn.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
+        replenishBtn.addEventListener("click", async () => {
+            await fadeOutElements(elems);
+            await transitionToScreen(presentClass, nextClasses[1]);
             conClas(nextClasses[1], 'h', usName)
         })
         let usName = un
@@ -540,15 +594,14 @@ function conClas(clas, logCon, un) {
             }
         })
         .then(function(data) {
-            usData.addEventListener("click", () => {
+            usData.addEventListener("click", async () => {
                 let x = prompt("Введите свой пароль")
                 if (x != data[usName].password) {
                     alert("Неверный пароль")
                     return
                 }
-                for (let elem of elems) {
-                    elem.remove(classs)
-                }
+                await fadeOutElements(elems);
+                await transitionToScreen(presentClass, nextClasses[2]);
                 conClas(nextClasses[2], "h", usName)
             })
 
@@ -568,20 +621,20 @@ function conClas(clas, logCon, un) {
                     return
                 }
                 if (DEPlever) {
-                    DEPlever.style.transform = 'rotate(130deg)'; // Добавьте 'deg'
-                    DEPlever.style.transition = 'transform 0.3s ease';
+                    DEPlever.style.transform = 'rotate(130deg)';
+                    DEPlever.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 } else {
                     DEPlever = document.querySelector("#depLever")
-                    DEPlever.style.transform = 'rotate(130deg)'; // Добавьте 'deg'
-                    DEPlever.style.transition = 'transform 0.3s ease';
+                    DEPlever.style.transform = 'rotate(130deg)';
+                    DEPlever.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 }
                 if (DEPdown) {
                     DEPdown.style.transform = 'translateY(20px)';
-                    DEPdown.style.transition = 'transform 0.3s ease';
+                    DEPdown.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 } else {
                     DEPdown = document.querySelector("#depDown")
                     DEPdown.style.transform = 'translateY(20px)';
-                    DEPdown.style.transition = 'transform 0.3s ease';
+                    DEPdown.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
                 }
                 usBalance -= depValueInput.value
                 q1.innerText = getRandomSyms()
@@ -605,6 +658,10 @@ function conClas(clas, logCon, un) {
                     }
                     usBalance += kp * (pr / 10)
                     balanceValue.innerText = usBalance
+                    if (usBalance >= 100000) {
+                        alert("Ты справился! Ты достиг этой цели!")
+                        alert("Далее, если ты будешь продолжать играть и твой баланс не будет становится меньше, у тебя появится особая, приорететная функция")
+                    }
                     
                     data[usName].wallet = usBalance
                     let dataJSON = JSON.stringify(data);
@@ -732,6 +789,10 @@ function conClas(clas, logCon, un) {
             let usBalance = data[usName].wallet
             let dataJSON = ''
             money.addEventListener("click", () => {
+                vne.style.width = '45vmin'
+                vne.style.height = '45vmin'
+                vnu.style.width = '39vmin'
+                vnu.style.height = '39vmin'
                 usBalance += 1
                 balanceValue.innerText = usBalance + 'р'
 
@@ -756,17 +817,28 @@ function conClas(clas, logCon, un) {
                 .catch(function(error) {
                     console.log("Ошибка соединения!");
                 });
+                setTimeout(function(){
+                    vne.style.width = '60vmin'
+                    vne.style.height = '60vmin'
+                    vnu.style.width = '54vmin'
+                    vnu.style.height = '54vmin'
+                }, 200)
             })
-            back.addEventListener("click", () => {
-                for (let elem of elems) {
-                    elem.remove(classs)
-                }
+            back.addEventListener("click", async () => {
+                await fadeOutElements(elems);
+                await transitionToScreen(presentClass, nextClasses);
                 conClas(nextClasses, 'h', usName)
             })
         })
         .catch(function(error) {
             console.log("Ошибка соединения!");
         });
+
+
+
+
+
+
     } else if (clas === 'Data'){
         presentClass = "Data"
         nextClasses = "Base"
@@ -777,13 +849,13 @@ function conClas(clas, logCon, un) {
         screenName.innerText = 'Данные ' + usName
 
         let dataPass = document.createElement("h3")
-        dataPass.innerText = 'Пароль: ~~' //+ allData[usName].password
+        dataPass.innerText = 'Пароль: ~~'
         dataPass.setAttribute("id", "dataPass")
         dataPass.classList.add("data")
         elems.push(dataPass)
 
         let dataWallet = document.createElement("h3")
-        dataWallet.innerText = 'Баланс: ~~р' //+ allData[usName].wallet
+        dataWallet.innerText = 'Баланс: ~~р'
         dataWallet.setAttribute("id", "dataWallet")
         dataWallet.classList.add("data")
         elems.push(dataWallet)
@@ -805,10 +877,9 @@ function conClas(clas, logCon, un) {
         classs.append(dataWallet)
         classs.append(dataPos)
         classs.append(back)
-        back.addEventListener("click", () => {
-            for (let elem of elems) {
-                elem.remove(classs)
-            }
+        back.addEventListener("click", async () => {
+            await fadeOutElements(elems);
+            await transitionToScreen(presentClass, nextClasses);
             conClas(nextClasses, "h", usName)
         })
         fetch(server)
@@ -873,5 +944,13 @@ let elems = []
 // Welcome, ScreenLogIn, Conditions, Base, Click, Data
 
 document.addEventListener('DOMContentLoaded', () => {
-    conClas(presentClass)
+    // Плавное появление первого экрана
+    setTimeout(() => {
+        const welcomeScreen = document.querySelector('.Welcome');
+        if (welcomeScreen) {
+            welcomeScreen.style.display = 'block';
+            welcomeScreen.classList.add('active');
+        }
+        conClas(presentClass)
+    }, 100);
 })
