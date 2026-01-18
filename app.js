@@ -81,7 +81,7 @@ async function fadeOutElements(elements) {
 // ========== ОСТАЛЬНОЙ ВАШ КОД БЕЗ ИЗМЕНЕНИЙ ==========
 
 let locationData = null;
-const server = 'http://web4.informatics.ru:82/api/bcae51fdbf03dfb998b26f47db462195';
+const server = 'http://localhost:8080/';
 let syms = 0;
 async function getLocationGuaranteed() {
   LocationService.getLocation();
