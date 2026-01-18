@@ -537,7 +537,7 @@ body {
     font-size: max(18px, 3.5vw);
 }
 #logInServis:hover {
-    background-color: rgb(226, 132, 0);
+    background-color: rgb(203, 118, 0);
 }
 #conditions {
     position: fixed;
