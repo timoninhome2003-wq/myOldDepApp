@@ -115,7 +115,7 @@ function show(elem) {
     elem.style.pointerEvents = "auto"
 }
 function getRandomSyms() {
-    syms = ["🍒", "🍋", "💎", "❌"]
+    syms = ["🍒", "🧸", "🍭", "❌"]
     let pr = Math.random()
     if (pr <= 0.3) {
         return syms[3]
@@ -165,6 +165,12 @@ async function conClas(clas, logCon, un) {
         }
         screenName.style.transform = 'translateX(-21%)'
 
+        let back = document.createElement("h3")
+        back.innerText = '←'
+        back.setAttribute("id", "back2")
+        back.classList.add("screenLogIn")
+        elems.push(back)
+
         let usNameText = document.createElement("h3")
         usNameText.innerText = "Введите имя: "
         usNameText.setAttribute("id", "textInputName")
@@ -210,12 +216,17 @@ async function conClas(clas, logCon, un) {
 
 
 
+        classs.append(back)
         classs.append(usNameText)
         classs.append(usNameValue)
         classs.append(usPassText)
         classs.append(usPassValue)
         classs.append(mem)
         classs.append(next)
+        back.disabled = true
+        back.addEventListener("click", () => {
+            location.reload();
+        })
         mem.addEventListener("click", () => {
             mem.classList.add("ultra-cringe-shake")
             setTimeout(function(){mem.classList.remove("ultra-cringe-shake")}, 500)
@@ -477,9 +488,9 @@ async function conClas(clas, logCon, un) {
         let DEPafto = document.createElement("div")
         DEPafto.innerHTML = `
             <div id="depUp"></div>
-            <h6 id="q1">🍒</h6>
-            <h6 id="q2">💎</h6>
-            <h6 id="q3">🍊</h6>
+            <h6 id="q1">🧸</h6>
+            <h6 id="q2">🍭</h6>
+            <h6 id="q3">🍒</h6>
             <div id="depCenter"></div>
             <div id="depLever">
                 <div id='upl'><div>
@@ -648,11 +659,11 @@ async function conClas(clas, logCon, un) {
                         //alert("Пиздец ты лох ебанный, иди убейся, боооже")
                     } else if (q1.innerText == '🍊') {
                         kp = 5 // в 2 раза меньше
-                    } else if (q1.innerText == '🍋') {
+                    } else if (q1.innerText == '🧸') {
                         kp = 10 // тоже самое
                     } else if (q1.innerText == '🍒') {
                         kp = 50 // в 5 раз больше
-                    } else if (q1.innerText == '💎') {
+                    } else if (q1.innerText == '🍭') {
                         kp = 1000 // в 100 раз больше
                     } else {
                         alert("Вы сделали невозможное! Мега ошибка нах")
@@ -660,8 +671,8 @@ async function conClas(clas, logCon, un) {
                     usBalance += kp * (pr / 10)
                     balanceValue.innerText = usBalance
                     if (usBalance >= 100000) {
-                        alert("Ты справился! Ты достиг этой цели!")
-                        alert("Далее, если ты будешь продолжать играть и твой баланс не будет становится меньше, у тебя появится особая, приорететная функция")
+                        //alert("Ты справился! Ты достиг этой цели!")
+                        //alert("Далее, если ты будешь продолжать играть и твой баланс не будет становится меньше, у тебя появится особая, приорететная функция")
                     }
                     
                     data[usName].wallet = usBalance
