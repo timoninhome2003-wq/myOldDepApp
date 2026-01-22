@@ -357,7 +357,8 @@ async function conClas(clas, logCon, un) {
         elems.push(srcName)
 
         let go1 = document.createElement("h5")
-        go1.innerText = `Блаб лабл аблабл аблаблаблабла б лаблаблаблаблаб целях! Создатель блаблабла блаблабл абл абла блаблабла б лаблаб лаблаб, и уж тем более бл аблаб лаблабла блаб лаблаб ла блаблабла, блаблабл аблаб лаб лаблаб лаб лаблаблаб, и т.д.`
+        go1.innerText = `Блаб лабл аблабл аблаблаблабла б лаблаблаблаблаб целях! Создатель блаблабла блаблабл абл абла блаблабла б лаблаб лаблаб, и уж тем 
+        более бл аблаб лаблабла блаб лаблаб ла блаблабла, блаблабл аблаб лаб лаблаб лаб лаблаблаб, и т.д.`
         go1.setAttribute("id", "go1")
         go1.classList.add("conditions", "go")
         elems.push(go1)
@@ -623,7 +624,7 @@ async function conClas(clas, logCon, un) {
                     alert("Введите сумму для прокрутки")
                     return
                 }
-                if (depValueInput.value <= 0) {
+                if (depValueInput.value <= 0 || String(depValueInput.value).includes('.') || String(depValueInput.value).includes(',') || isNaN(Number(depValueInput.value))) {
                     alert("Не жульничаем!")
                     return
                 }
@@ -631,6 +632,12 @@ async function conClas(clas, logCon, un) {
                     alert("Вашего баланса не хватает для ставки. Можете уменьшить ставку или <Пополнить> баланс")
                     return
                 }
+                depBtn.style.backgroundColor = 'rgb(174, 0, 0)'
+                depBtn.style.pointerEvents = 'none'
+                setTimeout(function() {
+                    depBtn.style.pointerEvents = 'auto'
+                    depBtn.style.backgroundColor = 'rgb(220, 0, 0)'
+                }, 550)
                 if (DEPlever) {
                     DEPlever.style.transform = 'rotate(130deg)';
                     DEPlever.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
