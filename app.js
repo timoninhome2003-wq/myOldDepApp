@@ -318,7 +318,6 @@ async function conClas(clas, logCon, un) {
                     xhr.send(dataJSON);
                     if (xhr.status === 201 || xhr.status === 200) {
                         console.log("Данные успешно отправленны")
-                        console.log(dataJSON)
                         await fadeOutElements(elems);
                         await transitionToScreen(presentClass, nextClasses[1]);
                         conClas(nextClasses[1], 'h', usName)
