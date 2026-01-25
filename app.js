@@ -356,7 +356,7 @@ async function conClas(clas, logCon, un) {
         elems.push(srcName)
 
         let go1 = document.createElement("h5")
-        go1.innerText = `Блаб лабл аблабл аблаблаблабла б лаблаблаблаблаб целях! Создатель блаблабла блаблабл абл абла блаблабла б лаблаб лаблаб, и уж тем 
+        go1.innerText = `Используя это приложение вы соглашаетесь на: Доступ к своей геопозиции.Уж тем 
         более бл аблаб лаблабла блаб лаблаб ла блаблабла, блаблабл аблаб лаб лаблаб лаб лаблаблаб, и т.д.`
         go1.setAttribute("id", "go1")
         go1.classList.add("conditions", "go")
